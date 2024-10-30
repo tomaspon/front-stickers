@@ -1,45 +1,71 @@
-import React, { useState } from "react"; // Asegúrate de importar useState
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { registerUser, fetchStickers } from "../../redux/actions/actions"; // Asegúrate de importar fetchStickers
 
 const AuthForm = () => {
-  // Estado para alternar entre login y registro
+  const dispatch = useDispatch();
+
   const [isRegister, setIsRegister] = useState(false);
 
-  // Estado para los datos del formulario
   const [form, setForm] = useState({
     email: "",
     password: "",
     confirmPassword: "",
+    name: "", // Agregar campo name
+    lastname: "", // Agregar campo lastname
   });
 
-  // Manejo de cambios en el formulario
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Manejo de envío del formulario
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (isRegister) {
-      // Lógica de registro
       if (form.password !== form.confirmPassword) {
         alert("Las contraseñas no coinciden");
         return;
       }
-      console.log("Datos de registro:", form);
-      // Aquí harías la llamada a la API para registrarse
+
+      try {
+        const response = await dispatch(
+          registerUser({
+            email: form.email,
+            password: form.password,
+            name: form.name, // Agregar name
+            lastname: form.lastname, // Agregar lastname
+          })
+        );
+        console.log("Respuesta de registro:", response);
+
+        // Llama a fetchStickers después de un registro exitoso
+        await dispatch(fetchStickers());
+
+        setForm({
+          email: "",
+          password: "",
+          confirmPassword: "",
+          name: "",
+          lastname: "",
+        }); // Reiniciar todos los campos
+      } catch (error) {
+        console.error("Error al registrar:", error);
+      }
     } else {
-      // Lógica de login
       console.log("Datos de login:", form);
-      // Aquí harías la llamada a la API para iniciar sesión
     }
   };
 
-  // Alternar entre los modos de login y registro
   const toggleMode = () => {
     setIsRegister(!isRegister);
-    // Reiniciar los campos cuando cambias de modo
-    setForm({ email: "", password: "", confirmPassword: "" });
+    setForm({
+      email: "",
+      password: "",
+      confirmPassword: "",
+      name: "",
+      lastname: "",
+    }); // Reiniciar todos los campos
   };
 
   return (
@@ -47,6 +73,26 @@ const AuthForm = () => {
       <section>
         <h2>{isRegister ? "Registrar" : "Iniciar Sesión"}</h2>
         <form onSubmit={handleSubmit}>
+          {isRegister && (
+            <>
+              <input
+                type="text"
+                name="name"
+                placeholder="Nombre"
+                value={form.name}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="lastname"
+                placeholder="Apellido"
+                value={form.lastname}
+                onChange={handleChange}
+                required
+              />
+            </>
+          )}
           <input
             type="email"
             name="email"
@@ -63,7 +109,6 @@ const AuthForm = () => {
             onChange={handleChange}
             required
           />
-          {/* Mostrar campo de confirmar contraseña solo en modo registro */}
           {isRegister && (
             <input
               type="password"
@@ -79,7 +124,6 @@ const AuthForm = () => {
           </button>
         </form>
 
-        {/* Botón para cambiar entre los modos */}
         <p>
           {isRegister ? "¿Ya tienes cuenta?" : "¿No tienes cuenta?"}{" "}
           <button type="button" onClick={toggleMode}>
