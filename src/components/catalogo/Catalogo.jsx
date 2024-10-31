@@ -4,12 +4,11 @@ import Cards from "../cards/Cards";
 import Header from "../header/Header";
 import style from "../catalogo/Catalogo.module.css";
 import { fetchStickers } from "../../redux/actions/actions";
-import AuthForm from "../authForm/AuthForm"; // Importamos el AuthForm
+import AuthForm from "../authForm/AuthForm";
 
 const Catalogo = () => {
   const dispatch = useDispatch();
-
-  const [showLogin, setShowLogin] = useState(false); // Estado para controlar el formulario
+  const [showLogin, setShowLogin] = useState(false);
   const stickers = useSelector((state) => state.stickers);
   const loading = useSelector((state) => state.loading);
   const error = useSelector((state) => state.error);
@@ -19,11 +18,11 @@ const Catalogo = () => {
   }, [dispatch]);
 
   const handleLoginClick = () => {
-    setShowLogin(true); // Mostrar el formulario de login cuando se haga clic en "Iniciar sesión"
+    setShowLogin(true);
   };
 
   const closeLogin = () => {
-    setShowLogin(false); // Ocultar el formulario de login
+    setShowLogin(false);
   };
 
   return (
@@ -33,14 +32,18 @@ const Catalogo = () => {
       </header>
       <section>
         <h2>Catálogo de Stickers</h2>
+
         {showLogin && (
-          <div className="modal">
-            <div className="modal-content">
-              <button onClick={closeLogin}>Cerrar</button>
+          <div className={style.modalOverlay}>
+            <div className={style.modalContent}>
+              <button className={style.closeButton} onClick={closeLogin}>
+                &times;
+              </button>
               <AuthForm />
             </div>
           </div>
         )}
+
         {loading ? (
           <p>Cargando stickers...</p>
         ) : error ? (

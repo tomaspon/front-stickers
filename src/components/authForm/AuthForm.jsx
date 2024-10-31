@@ -1,56 +1,183 @@
 import React, { useState } from "react";
+import PasswordStrengthBar from "./PasswordStrenghtBar"; // Asegúrate de importar el componente
 import { useDispatch } from "react-redux";
-import { registerUser, fetchStickers } from "../../redux/actions/actions"; // Asegúrate de importar fetchStickers
+import { registerUser, fetchStickers } from "../../redux/actions/actions";
+import { useNavigate } from "react-router-dom"; // Importar useNavigate
+import style from "./AuthForm.module.css"; // Archivo CSS
+import Swal from "sweetalert2"; // Importar SweetAlert
+import {
+  validateEmail,
+  validatePassword,
+  validateConfirmPassword,
+  validateName,
+  validateLastname,
+} from "../utils/validator/validateForm"; // Importar funciones de validación
 
 const AuthForm = () => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate(); // Inicializar useNavigate
   const [isRegister, setIsRegister] = useState(false);
-
   const [form, setForm] = useState({
     email: "",
     password: "",
     confirmPassword: "",
-    name: "", // Agregar campo name
-    lastname: "", // Agregar campo lastname
+    name: "",
+    lastname: "",
   });
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    name: "",
+    lastname: "",
+  });
+  const [passwordStrength, setPasswordStrength] = useState(0); // Estado para la fortaleza de la contraseña
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false); // Estado para saber si el input de contraseña está enfocado
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+
+    // Validar el campo en tiempo real
+    let error = "";
+    if (name === "email") {
+      error = validateEmail(value);
+    } else if (name === "password") {
+      // Usar regex para validar la contraseña
+      const passwordRegex =
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$/;
+      error = passwordRegex.test(value)
+        ? ""
+        : "La contraseña debe tener al menos 6 caracteres, una mayúscula, un número y un carácter especial.";
+
+      // Calcular la fortaleza de la contraseña
+      let strength = 0;
+      let hasUpperCase = /[A-Z]/.test(value);
+      let hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+      let hasNumber = /\d/.test(value);
+
+      // Comenzar la validación a partir de 6 caracteres
+      if (value.length >= 6) {
+        strength++; // Mínimo 6 caracteres
+        if (hasUpperCase) strength++; // Al menos una mayúscula
+        if (hasSpecialChar) strength++; // Al menos un carácter especial
+        if (hasNumber) strength++; // Al menos un número
+      }
+
+      // Asignar "muy fuerte" solo si se cumplen todos los requisitos y la longitud es mayor o igual a 20
+      if (value.length >= 20 && hasUpperCase && hasSpecialChar && hasNumber) {
+        setPasswordStrength(4); // Puedes asignar un valor específico para "muy fuerte"
+      } else {
+        setPasswordStrength(strength); // Actualizar fuerza de la contraseña normalmente
+      }
+    } else if (name === "confirmPassword") {
+      error = validateConfirmPassword(form.password, value);
+    } else if (name === "name") {
+      error = validateName(value);
+    } else if (name === "lastname") {
+      error = validateLastname(value);
+    }
+
+    setErrors((prev) => ({ ...prev, [name]: error }));
+  };
+
+  const handlePasswordFocus = () => {
+    setIsPasswordFocused(true); // Establecer que el input de contraseña está enfocado
+  };
+
+  const handlePasswordBlur = () => {
+    setIsPasswordFocused(false); // Establecer que el input de contraseña no está enfocado
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Limpiar errores previos
+    setErrors({
+      email: "",
+      password: "",
+      confirmPassword: "",
+      name: "",
+      lastname: "",
+    });
+
+    // Validación de campos
     if (isRegister) {
-      if (form.password !== form.confirmPassword) {
-        alert("Las contraseñas no coinciden");
-        return;
+      const emailError = validateEmail(form.email);
+      const passwordError = validatePassword(form.password);
+      const confirmPasswordError = validateConfirmPassword(
+        form.password,
+        form.confirmPassword
+      );
+      const nameError = validateName(form.name);
+      const lastnameError = validateLastname(form.lastname);
+
+      // Establecer errores en el estado
+      if (emailError) {
+        setErrors((prev) => ({ ...prev, email: emailError }));
       }
+      if (passwordError) {
+        setErrors((prev) => ({ ...prev, password: passwordError }));
+      }
+      if (confirmPasswordError) {
+        setErrors((prev) => ({
+          ...prev,
+          confirmPassword: confirmPasswordError,
+        }));
+      }
+      if (nameError) {
+        setErrors((prev) => ({ ...prev, name: nameError }));
+      }
+      if (lastnameError) {
+        setErrors((prev) => ({ ...prev, lastname: lastnameError }));
+      }
+
+      // Si hay errores, no continuar
+      if (
+        emailError ||
+        passwordError ||
+        confirmPasswordError ||
+        nameError ||
+        lastnameError
+      )
+        return;
 
       try {
         const response = await dispatch(
           registerUser({
             email: form.email,
             password: form.password,
-            name: form.name, // Agregar name
-            lastname: form.lastname, // Agregar lastname
+            name: form.name,
+            lastname: form.lastname,
           })
         );
         console.log("Respuesta de registro:", response);
-
-        // Llama a fetchStickers después de un registro exitoso
         await dispatch(fetchStickers());
 
+        // Mostrar SweetAlert
+        Swal.fire({
+          icon: "success",
+          title: "¡Registro exitoso!",
+          text: "Te has registrado correctamente.",
+          confirmButtonText: "Aceptar",
+        }).then(() => {
+          // Cerrar el formulario y cambiar a modo de inicio de sesión
+          setIsRegister(false); // Cambiar a modo de inicio de sesión
+        });
+
+        // Reiniciar el formulario
         setForm({
           email: "",
           password: "",
           confirmPassword: "",
           name: "",
           lastname: "",
-        }); // Reiniciar todos los campos
+        });
       } catch (error) {
         console.error("Error al registrar:", error);
+        if (error.message.includes("Email already registered")) {
+          setErrors((prev) => ({ ...prev, email: "Email ya registrado." }));
+        }
       }
     } else {
       console.log("Datos de login:", form);
@@ -65,70 +192,122 @@ const AuthForm = () => {
       confirmPassword: "",
       name: "",
       lastname: "",
-    }); // Reiniciar todos los campos
+    });
+    setErrors({
+      email: "",
+      password: "",
+      confirmPassword: "",
+      name: "",
+      lastname: "",
+    }); // Limpiar errores al cambiar de modo
   };
 
   return (
-    <div>
-      <section>
+    <div className={style.authFormContainer}>
+      <section className={style.authForm}>
         <h2>{isRegister ? "Registrar" : "Iniciar Sesión"}</h2>
         <form onSubmit={handleSubmit}>
-          {isRegister && (
-            <>
+          <ul className={style.formList}>
+            {isRegister && (
+              <>
+                <li>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Nombre"
+                    value={form.name}
+                    onChange={handleChange}
+                    required
+                    className={style.inputField}
+                  />
+                  {isRegister &&
+                    errors.name && ( // Condición añadida aquí
+                      <p className={style.errorMessage}>{errors.name}</p>
+                    )}
+                </li>
+                <li>
+                  <input
+                    type="text"
+                    name="lastname"
+                    placeholder="Apellido"
+                    value={form.lastname}
+                    onChange={handleChange}
+                    required
+                    className={style.inputField}
+                  />
+                  {isRegister &&
+                    errors.lastname && ( // Condición añadida aquí
+                      <p className={style.errorMessage}>{errors.lastname}</p>
+                    )}
+                </li>
+              </>
+            )}
+            <li>
               <input
-                type="text"
-                name="name"
-                placeholder="Nombre"
-                value={form.name}
+                type="email"
+                name="email"
+                placeholder="Correo electrónico"
+                value={form.email}
                 onChange={handleChange}
                 required
+                className={style.inputField}
               />
+              {isRegister &&
+                errors.email && ( // Condición añadida aquí
+                  <p className={style.errorMessage}>{errors.email}</p>
+                )}
+            </li>
+            <li>
               <input
-                type="text"
-                name="lastname"
-                placeholder="Apellido"
-                value={form.lastname}
+                type="password"
+                name="password"
+                placeholder="Contraseña"
+                value={form.password}
                 onChange={handleChange}
+                onFocus={handlePasswordFocus} // Manejador de enfoque
+                onBlur={handlePasswordBlur} // Manejador de desenfoque
                 required
+                className={style.inputField}
               />
-            </>
-          )}
-          <input
-            type="email"
-            name="email"
-            placeholder="Correo electrónico"
-            value={form.email}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Contraseña"
-            value={form.password}
-            onChange={handleChange}
-            required
-          />
-          {isRegister && (
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirmar Contraseña"
-              value={form.confirmPassword}
-              onChange={handleChange}
-              required
-            />
-          )}
-          <button type="submit">
+              <div className={style.passBar}>
+                {isRegister &&
+                  (isPasswordFocused || form.password.length > 0) && (
+                    <PasswordStrengthBar strength={passwordStrength} />
+                  )}
+              </div>
+              {isRegister &&
+                errors.password && ( // Condición añadida aquí
+                  <p className={style.errorMessage}>{errors.password}</p>
+                )}
+            </li>
+
+            {isRegister && (
+              <li>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Repetir contraseña"
+                  value={form.confirmPassword}
+                  onChange={handleChange}
+                  maxLength={20} // Establece la longitud máxima en 20 caracteres
+                  required
+                  className={style.inputField}
+                />
+                {isRegister &&
+                  errors.confirmPassword && ( // Condición añadida aquí
+                    <p className={style.errorMessage}>
+                      {errors.confirmPassword}
+                    </p>
+                  )}
+              </li>
+            )}
+          </ul>
+          <button type="submit" className={style.submitButton}>
             {isRegister ? "Registrar" : "Iniciar Sesión"}
           </button>
         </form>
-
-        <p>
-          {isRegister ? "¿Ya tienes cuenta?" : "¿No tienes cuenta?"}{" "}
-          <button type="button" onClick={toggleMode}>
-            {isRegister ? "Iniciar Sesión" : "Registrar"}
-          </button>
+        <p className={style.toggleText} onClick={toggleMode}>
+          {isRegister ? "¿Ya tienes una cuenta?" : "¿No tienes una cuenta?"}
         </p>
       </section>
     </div>

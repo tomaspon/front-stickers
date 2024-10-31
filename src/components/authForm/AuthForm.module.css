@@ -1,0 +1,126 @@
+/* AuthForm.module.css */
+.authFormContainer {
+  padding: 2rem;
+  max-width: 800px;
+  background-color: #fff;
+  padding: 0; /* Elimina el relleno */
+  margin: 0; /* Elimina el margen */
+  border-radius: 8px;
+}
+
+.authForm {
+  display: flex;
+  flex-direction: column;
+  padding: 0; /* Elimina el relleno */
+  margin: 0; /* Elimina el margen */
+}
+
+.authForm h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.authForm ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  padding: 0; /* Elimina el relleno */
+  margin: 0 auto; /* Elimina el margen */
+  gap: 16px;
+  width: 100%;
+  flex-direction: column;
+}
+
+.authForm form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inputField {
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.submitButton {
+  padding: 0.8rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+  background-color: #0056b3;
+}
+
+.toggleText {
+  color: #007bff;
+  cursor: pointer;
+}
+
+.toggleContainer {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 16px;
+}
+
+.toggleButton {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.toggleButton:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.formList {
+  list-style-type: none; /* Eliminar los estilos de lista */
+  padding: 0; /* Eliminar el padding */
+}
+
+.inputField {
+  width: 100%; /* Asegúrate de que los inputs ocupen el ancho completo */
+  padding: 10px; /* Agregar padding para un mejor aspecto */
+}
+.authForm li {
+  padding: 0; /* Elimina el relleno */
+  flex-direction: column; /* Alinea los elementos en columna */
+  align-items: flex-start; /* Alinea los elementos al inicio del contenedor */
+  margin-bottom: 1rem; /* Espaciado entre cada item de la lista */
+  width: 100%; /* Asegúrate de que ocupe todo el ancho */
+}
+
+.authForm input {
+  display: flex;
+  padding: 6px;
+  margin: 0; /* Elimina márgenes innecesarios */
+  width: 100%; /* Asegúrate de que el input ocupe todo el ancho */
+  background-color: #ddd;
+}
+
+.errorMessage {
+  text-align: left; /* Alinea el texto del mensaje de error a la izquierda */
+  color: red; /* Color del mensaje de error */
+  font-size: 13px; /* Tamaño de la fuente */
+  height: 10px; /* Altura fija para mantener el espacio */
+  margin: 0; /* Eliminar margen para evitar espacio adicional */
+  width: 100%; /* Asegúrate de que ocupe todo el ancho */
+  padding-left: 4px; /* Opcional: añade un poco de padding a la izquierda */
+  padding-top: 4px; /* Opcional: añade un poco de padding a la izquierda */
+}
+.checkmark {
+  color: green; /* Color de la palomita */
+  margin-left: 8px; /* Espacio a la izquierda de la palomita */
+}

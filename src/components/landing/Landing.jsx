@@ -1,18 +1,35 @@
-import React from "react";
 import style from "./Landing.module.css";
 import Header from "../header/Header";
+import AuthForm from "../authForm/AuthForm";
+import React, { useState } from "react";
 
 const Landing = () => {
+  const [showLogin, setShowLogin] = useState(false); // Estado para controlar el formulario
+
+  const handleLoginClick = () => {
+    setShowLogin(true); // Mostrar el formulario de login cuando se haga clic en "Iniciar sesión"
+  };
+
+  const closeLogin = () => {
+    setShowLogin(false); // Ocultar el formulario de login
+  };
+
   return (
     <div>
-      <header className={style.header}>
-        <Header />
+      <header>
+        <Header onLoginClick={handleLoginClick} />
       </header>
+      <div>
+        {showLogin && (
+          <div className="modal">
+            <div className="modal-content">
+              <button onClick={closeLogin}>Cerrar</button>
+              <AuthForm />
+            </div>
+          </div>
+        )}
+      </div>
 
-      <section className={style.banner}>
-        <img src="path/to/image.jpg" alt="Banner de stickers" />
-        <p>Descubre nuestros stickers únicos para personalizar tu mundo</p>
-      </section>
       <section className={style.benefits}>
         <h2>Beneficios</h2>
         <ul>

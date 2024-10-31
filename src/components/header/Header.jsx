@@ -6,9 +6,14 @@ const Header = ({ onLoginClick }) => {
     <div>
       <header>
         <div>
-          <a href="http://localhost:5173/">
-            <h1>Tolu Stickers</h1>
-          </a>
+          <div>
+            <p>Descubre nuestros stickers únicos para personalizar tu mundo</p>
+          </div>
+          <div>
+            <a href="http://localhost:5173/">
+              <h1>Tolu Stickers</h1>
+            </a>
+          </div>
         </div>
         <div>
           <nav className={style.navbarStyle}>
