@@ -12,9 +12,11 @@ const Cards = ({ stickers }) => {
 
   return (
     <div className={style.container}>
-      {stickers.map((sticker) => (
-        <Card key={sticker.id} sticker={sticker} />
-      ))}
+      <div className={style.cards}>
+        {stickers.map((sticker) => (
+          <Card key={sticker.id} sticker={sticker} />
+        ))}
+      </div>
     </div>
   );
 };

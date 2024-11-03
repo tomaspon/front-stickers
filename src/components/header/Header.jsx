@@ -1,7 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react"; // Importa useEffect y useState
 import style from "../header/Header.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../redux/actions/actions";
 
 const Header = ({ onLoginClick }) => {
+  const dispatch = useDispatch();
+  const [userInLocalStorage, setUserInLocalStorage] = useState(null);
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    window.location.reload(); // Recarga la página
+  };
+
+  useEffect(() => {
+    // Verifica si hay un usuario en el local storage
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      setUserInLocalStorage(JSON.parse(userData));
+      console.log(
+        "Usuario recuperado del local storage:",
+        JSON.parse(userData)
+      );
+    } else {
+      console.log("No hay usuario en local storage.");
+    }
+  }, []);
+
   return (
     <div>
       <header>
@@ -49,9 +73,15 @@ const Header = ({ onLoginClick }) => {
 
             <div className={style.navButtonsStyle}>
               <button className={style.buttonStyle}>Carrito</button>
-              <button className={style.buttonStyle} onClick={onLoginClick}>
-                Iniciar Sesión
-              </button>
+              {userInLocalStorage ? (
+                <button className={style.buttonStyle} onClick={handleLogout}>
+                  Cerrar Sesión
+                </button>
+              ) : (
+                <button className={style.buttonStyle} onClick={onLoginClick}>
+                  Iniciar Sesión
+                </button>
+              )}
             </div>
           </nav>
         </div>

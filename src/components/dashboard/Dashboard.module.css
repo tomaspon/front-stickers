@@ -1,0 +1,58 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrar el contenido */
+  padding: 10px;
+  background-color: #f8f9fa; /* Fondo más claro */
+  min-height: 100vh; /* Asegurar que ocupe toda la altura de la vista */
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  font-size: 50px;
+  font-family: "Arial", sans-serif; /* Cambia la fuente si deseas */
+  color: #333; /* Color de texto más oscuro */
+}
+
+.nav {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.nav a {
+  font-family: Arial, Helvetica, sans-serif;
+  text-decoration: none;
+  font-size: 20px;
+  padding: 10px 20px; /* Relleno más cómodo */
+  color: #ffffff; /* Color de texto blanco */
+  border-radius: 5px;
+  background-color: #007bff; /* Color azul para un aspecto más moderno */
+  transition: background-color 0.3s; /* Transición suave para hover */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+}
+
+.nav a:hover {
+  background-color: #0056b3; /* Azul más oscuro al pasar el ratón */
+}
+
+.content {
+  background-color: #ffffff; /* Fondo blanco para mayor claridad */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+  width: 100%; /* Asegúrate de que ocupe el ancho completo */
+  max-width: 1600px; /* Aumentar el ancho máximo para pantallas grandes */
+  margin: 0 auto; /* Centrar el contenido dentro de su contenedor */
+}
+
+.content h3 {
+  margin-top: 0; /* Quitar margen superior de h3 en la sección */
+}

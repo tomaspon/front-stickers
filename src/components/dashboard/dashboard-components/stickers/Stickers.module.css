@@ -1,0 +1,208 @@
+.stickerSection {
+  padding: 10px;
+  background-color: #ffffff; /* Mismo fondo blanco */
+  border-radius: 8px;
+  margin: 20px auto; /* Centrar */
+}
+
+.stickerTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.stickerSection h3 {
+  position: relative;
+  top: -10px;
+  font-size: 24px;
+}
+
+.stickerTable th,
+.stickerTable td {
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+.stickerTable th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  color: #555;
+}
+
+.stickerTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.stickerTable tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.stickerImage {
+  width: 60px; /* Tamaño de imagen consistente */
+  height: 60px;
+  border-radius: 4px;
+  transition: transform 0.3s ease;
+}
+
+.stickerImage:hover {
+  transform: scale(1.1);
+}
+
+.buttonContainer {
+  margin: 10px;
+}
+
+.createButton,
+.deleteButton {
+  padding: 12px 18px; /* Más espacio en los botones */
+  color: #ffffff;
+  background-color: #007bff; /* Azul profesional */
+  border: none;
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones suaves */
+  margin-right: 15px; /* Espaciado entre botones */
+  font-size: 16px; /* Tamaño de fuente más grande */
+}
+
+.deleteButton {
+  background-color: #dc3545; /* Azul profesional */
+}
+
+.createButton:hover,
+.deleteButton:hover {
+  background-color: #0056b3; /* Color más oscuro al pasar el ratón */
+  transform: translateY(-1px); /* Efecto de elevación */
+}
+
+.deleteButton {
+  background-color: #dc3545;
+}
+
+.longText {
+  overflow: hidden; /* Ocultar desbordamiento de texto */
+  text-overflow: ellipsis; /* Mostrar puntos suspensivos si el texto es demasiado largo */
+  white-space: nowrap; /* Evitar que el texto se divida en varias líneas */
+}
+
+.active {
+  color: red;
+  font-weight: bold;
+}
+
+.inactive {
+  color: green;
+  font-weight: bold;
+}
+
+.copyButton {
+  background: none; /* Sin fondo para el botón de copiar */
+  border: none;
+  border-radius: 3px; /* Sin borde */
+  cursor: pointer; /* Cambiar el cursor al pasar el ratón */
+  color: #007bff; /* Color azul para el texto del botón */
+  margin-left: 10px;
+}
+
+.copyButton:hover {
+  color: #0056b3; /* Cambiar a un azul más oscuro al pasar el ratón */
+}
+
+.copyButton span {
+  width: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  font-size: 22px;
+}
+
+/* Botón de edición */
+.editButton {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1.2em;
+  cursor: pointer;
+  padding: 6px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.editButton:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.1);
+}
+/* Estilo para el contenedor de botones */
+.buttonContainer {
+  display: flex; /* Usar flexbox para alinear los botones */
+  justify-content: center; /* Alinear los botones a la derecha */
+}
+
+/* Estilo para el modal del formulario de edición */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+}
+
+.form {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  width: 400px; /* Ancho del modal */
+}
+
+.field {
+  margin-bottom: 15px; /* Espaciado entre campos */
+}
+
+label {
+  display: block;
+  margin-bottom: 5px; /* Espaciado debajo de la etiqueta */
+  font-weight: bold;
+}
+
+input,
+select {
+  width: 100%; /* Ancho completo para los inputs */
+  padding: 10px; /* Espaciado interno */
+  border: 1px solid #e0e0e0;
+  border-radius: 5px; /* Bordes redondeados */
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between; /* Espaciado entre botones */
+}
+
+.submitButton,
+.cancelButton {
+  padding: 10px 15px; /* Espaciado de los botones */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submitButton {
+  background-color: #28a745; /* Color verde para el botón de actualizar */
+  color: #ffffff;
+}
+
+.cancelButton {
+  background-color: #dc3545; /* Color rojo para el botón de cancelar */
+  color: #ffffff;
+}
+
+.submitButton:hover,
+.cancelButton:hover {
+  opacity: 0.9; /* Efecto de hover */
+}

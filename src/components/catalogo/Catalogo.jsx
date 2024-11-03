@@ -25,6 +25,15 @@ const Catalogo = () => {
     setShowLogin(false);
   };
 
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      console.log("Datos de usuario en local storage:", JSON.parse(userData));
+    } else {
+      console.log("No hay datos de usuario en local storage.");
+    }
+  }, []);
+
   return (
     <div>
       <header>

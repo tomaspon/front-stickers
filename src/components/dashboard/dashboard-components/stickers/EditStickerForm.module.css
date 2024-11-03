@@ -1,0 +1,76 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+}
+
+.form {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  width: 420px; /* Ancho del modal */
+}
+
+.field {
+  margin-bottom: 15px; /* Espaciado entre campos */
+}
+
+label {
+  text-justify: start;
+  display: flex;
+  position: relative;
+  left: 10px;
+  margin-bottom: 5px; /* Espaciado debajo de la etiqueta */
+  font-weight: bold;
+}
+
+input {
+  width: 90%; /* Ancho completo para los inputs */
+  padding: 10px; /* Espaciado interno */
+  border: 1px solid #e0e0e0;
+  border-radius: 5px; /* Bordes redondeados */
+}
+
+select {
+  width: 95%; /* Ancho completo para los inputs */
+  padding: 10px; /* Espaciado interno */
+  border: 1px solid #e0e0e0;
+  border-radius: 5px; /* Bordes redondeados */
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between; /* Espaciado entre botones */
+}
+
+.submitButton,
+.cancelButton {
+  margin: 0 auto;
+  padding: 10px 14px; /* Espaciado de los botones */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submitButton {
+  background-color: #28a745; /* Color verde para el botón de actualizar */
+  color: #ffffff;
+}
+
+.cancelButton {
+  background-color: #dc3545; /* Color rojo para el botón de cancelar */
+  color: #ffffff;
+}
+
+.submitButton:hover,
+.cancelButton:hover {
+  opacity: 0.9; /* Efecto de hover */
+}

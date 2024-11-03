@@ -21,9 +21,11 @@ const Landing = () => {
       </header>
       <div>
         {showLogin && (
-          <div className="modal">
-            <div className="modal-content">
-              <button onClick={closeLogin}>Cerrar</button>
+          <div className={style.modalOverlay}>
+            <div className={style.modalContent}>
+              <button onClick={closeLogin} className={style.closeButton}>
+                ×
+              </button>
               <AuthForm />
             </div>
           </div>
